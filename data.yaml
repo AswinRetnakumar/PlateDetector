@@ -1,0 +1,5 @@
+names:
+- License Plate
+nc: 1
+train: /home/aswin/Desktop/anpr/Plate_detector/Images/train
+val: /home/aswin/Desktop/anpr/Plate_detector/Images/val
