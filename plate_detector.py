@@ -1,7 +1,6 @@
 import numpy as np 
 import pandas as pd 
 import os 
-import shutil
 import torch
 import cv2
 
@@ -19,13 +18,14 @@ class PlateDetector():
         self.model = torch.hub.load('./yolov5', 'custom', best_weights, source='local')
 
     def detect_plate(self, image):
-        image = cv2.imread(image)
-        # Convert image to RGB colorspace
+        # Convert image to RGB color space
+
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         # Predicting from model
         results = self.model(image)
         print(results.pandas().xyxy[0])
         results_df = results.pandas().xyxy[0]
+        resp = []
         for i, result in results_df.iterrows():
             x_min = int(result['xmin'])
             x_max = int(result['xmax'])
@@ -35,3 +35,5 @@ class PlateDetector():
             number_plate = image[y_min:y_max,x_min:x_max]
             name = 'plate'+str(i)+'.jpg'
             cv2.imwrite(name, number_plate)
+            resp.append(number_plate)
+        return resp
